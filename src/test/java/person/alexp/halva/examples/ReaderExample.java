@@ -6,11 +6,10 @@ import io.soabase.halva.any.AnyVal;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
+/** See http://eed3si9n.com/learning-scalaz/Reader.html
  * Created by Alex on 6/24/2016.
  */
 public class ReaderExample {
-
 
     public Reader<Integer, Integer> addStuff() {
         final AnyVal<Integer> a = Any.make();
