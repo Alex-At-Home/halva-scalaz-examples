@@ -14,8 +14,8 @@ public class ReaderExample {
     public Reader<Integer, Integer> addStuff() {
         final AnyVal<Integer> a = Any.make();
         final AnyVal<Integer> b = Any.make();
-        return ReaderFor
-                .forComp(a, Reader.unit((Integer x) -> x*2))
+        return ReaderFor.start()
+                .forComp(a, () -> Reader.unit((Integer x) -> x*2))
                 .forComp(b, () -> Reader.unit((Integer x) -> x + 10))
                 .yield(() -> a.val() + b.val())
                 ;

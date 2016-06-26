@@ -25,8 +25,8 @@ public class WriterExample {
             final AnyVal<Integer> a = Any.make();
             final AnyVal<Integer> b = Any.make();
             final Writer<List<String>, Integer> multWithLog =
-                    WriterFor
-                            .forComp(a, logNumber(3))
+                    WriterFor.start()
+                            .forComp(a, () -> logNumber(3))
                             .forComp(b, () -> logNumber(5))
                     .yield(() -> a.val()*b.val())
                     ;
@@ -39,8 +39,8 @@ public class WriterExample {
     private Writer<List<String>, Integer> gcd(final Integer a, final Integer b) {
         final AnyVal<Unit> _U = Any.make();
         if (b == 0)
-            return WriterFor
-                .forComp(_U, Writer.unit(Unit.unit(), Monoid.<String>listMonoid()).tell(List.list("Finished with " + a)))
+            return WriterFor.start()
+                .forComp(_U, () -> Writer.unit(Unit.unit(), Monoid.<String>listMonoid()).tell(List.list("Finished with " + a)))
                 .yield(() -> a)
                     ;
         else
