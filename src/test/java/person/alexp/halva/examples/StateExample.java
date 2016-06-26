@@ -62,7 +62,7 @@ public class StateExample {
     // 2) State based implementation of stack
 
     static State<StackAlias, Integer> pop() {
-        return State.<StackAlias, Integer>unit(s -> pop(s).swap());
+        return State.unit(s -> pop(s).swap());
     }
 
     static State<StackAlias, Unit> push(final Integer a) {
