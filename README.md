@@ -16,3 +16,5 @@ Currently there's:
 I'll add others as I get the time.
 
 Depending on the IDE used, it may be necessary to call `mvn clean generate-sources` before (re)building the project.
+
+_(The code in the [source package](https://github.com/Alex-At-Home/halva-scalaz-examples/tree/master/src/main/java/person/alexp/halva/examples) simply uses the `@MonadicFor` annotation to build for comprehension classes specific to each monad, and `@TypeAlias` to build some simple aliases for generic container classes)._
