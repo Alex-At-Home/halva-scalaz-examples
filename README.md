@@ -6,6 +6,8 @@ The [Functional Java library](http://www.functionaljava.org/) provides good impl
 
 The [Halva](https://github.com/Randgalt/halva) library provides a good implementation of many of the standard core Scala language features (in particular for this purpose, the for comprehension) and enables quite pleasant boiler-plate free implementations of the (Haskell ->) Scala/Scalaz examples in pure Java8, with minimal source-level annotations.
 
+_(Actually in some cases the Java version is a fair bit easier to follow - in return for being slightly more verbose, which is often a price worth paying)._
+
 The actual examples (with links to the original source material) are in the [test package](https://github.com/Alex-At-Home/halva-scalaz-examples/tree/master/src/test/java/person/alexp/halva/examples).
 
 Currently there's:
