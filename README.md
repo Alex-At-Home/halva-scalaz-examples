@@ -4,7 +4,7 @@ One of my favorite (intermediate/advanced) walk throughs of some of the core Mon
 
 The [Functional Java library](http://www.functionaljava.org/) provides good implementations of most of these core Scalaz constructs in Java, but without much in the way of documentation or example code.
 
-The [Halva](https://github.com/Randgalt/halva) library provides a good implementation of many of the standard core Scala language features (in particular for this purpose, the for comprehension) and enables quite pleasant boiler-plate free implementations of the (Haskell ->) Scala/Scalaz examples in pure Java8.
+The [Halva](https://github.com/Randgalt/halva) library provides a good implementation of many of the standard core Scala language features (in particular for this purpose, the for comprehension) and enables quite pleasant boiler-plate free implementations of the (Haskell ->) Scala/Scalaz examples in pure Java8, with minimal source-level annotations.
 
 The actual examples (with links to the original source material) are in the [test package](https://github.com/Alex-At-Home/halva-scalaz-examples/tree/master/src/test/java/person/alexp/halva/examples).
 
@@ -14,3 +14,5 @@ Currently there's:
 * State monad (one of my favorite!)
 
 I'll add others as I get the time.
+
+Depending on the IDE used, it may be necessary to call `mvn clean generate-sources` before (re)building the project.
