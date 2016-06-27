@@ -4,9 +4,11 @@ import fj.P;
 import fj.P2;
 import fj.Unit;
 import fj.data.State;
+import io.soabase.halva.alias.TypeAlias;
 import io.soabase.halva.any.Any;
 import io.soabase.halva.any.AnyType;
 import io.soabase.halva.any.AnyVal;
+import io.soabase.halva.container.TypeContainer;
 import io.soabase.halva.sugar.ConsList;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,6 +18,8 @@ import static io.soabase.halva.sugar.Sugar.List;
 /** See http://eed3si9n.com/learning-scalaz/State.html
  * Created by Alex on 6/24/2016.
  */
+//TODO: currently needs to be an inteface
+//@TypeContainer(unsuffix = "", suffix = "Types")
 public class StateExample {
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -25,13 +29,13 @@ public class StateExample {
     //TODO: would be nice to declare "TypeAlias Stack" inside here vs in its own compilcation unit
     //TODO: would be nice to declare "StackAlias" and get "Stack" vs the other way round
 
+    //TODO: this isn't currently working because TypeContainer needs interfaces
+    @TypeAlias interface Stack extends ConsList<Integer> {}
+
     static P2<Integer, StackAlias> pop(final StackAlias stack) {
         final Any<Integer> head = new AnyType<Integer>() {};
-        //TODO: want to use StackAlias inside the Any here (see also the caseOf return val)
-        // but if you do, fails with: "io.soabase.halva.matcher.MatchError: No matches found and no default provided for: [3, 5, 8, 2, 1]"
-        final Any<ConsList<Integer>> tail = new AnyType<ConsList<Integer>>() {};
+        final Any<StackAlias> tail = new AnyType<StackAlias>() {};
         return Matcher.match(stack)
-                //TODO: use new .caseOf method for this?
                 //TODO: doesn't seem to be type safe in the return value, eg change one of the types below and you get a runtime error
                 .caseOf(Any.anyHeadAnyTail(head, tail), () -> P.p(head.val(), StackAlias.StackAlias(tail.val())))
                 .get();
@@ -82,8 +86,8 @@ public class StateExample {
 
     @Test
     public void test_stateStack() {
-        //TODO shouldn't I be able to assign this to a StackAlias?
-        // eg final StackAlias stack = List(5, 8, 2, 1); //gives compile error
+        //TODO shouldn't I be able to assign this to a StackAlias? eg
+        //final StackAlias stack = List(5, 8, 2, 1); //gives compile error
         final ConsList<Integer> in_list = List(5, 8, 2, 1);
         final P2<StackAlias, Integer> res = stackManip().run(StackAlias.StackAlias(in_list));
 
@@ -132,8 +136,8 @@ public class StateExample {
                 //TODO would have been interesting to have been able to do: (there's a similar comment elsewhere about wanting to support assignment for tuples)
                 //.letComp(Any.anyHeadAnyTail(x, s_end), () -> s_start.val())
                 // ie from scala:  "val (x :: xs) = s", but this gives a compile error on the type var R.
-                .letComp(x, () -> StackAlias.StackAlias(s_start.val()).head()) //TODO: this StackAlias.StackAlias() wrapper is nasty, needed to avoid odd looking compilation error?
-                .forComp(u, () -> State.put(StackAlias.StackAlias(s_start.val()).tail())) //TODO: (see above comment, same applies here)
+                .letComp(x, () -> s_start.val().head())
+                .forComp(u, () -> State.put(s_start.val().tail()))
                 .yield(() -> x.val());
     }
 
