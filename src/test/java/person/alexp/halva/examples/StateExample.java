@@ -91,4 +91,82 @@ public class StateExample {
         //(just double check original stack aka state hasn't changed:)
         Assert.assertEquals(List(5, 8, 2, 1), in_list);
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+
+    // 3) Using get/put
+
+    static State<StackAlias, Unit> stackyStack() {
+        final AnyVal<StackAlias> stackNow = Any.make();
+        final AnyVal<Unit> r = Any.make();
+        return StateFor.start()
+                .forComp(stackNow, () -> State.init())
+                //(equivalent to:)
+                //.forComp(stackNow, () -> State.<StackAlias, StackAlias>gets(s -> s))
+                .forComp(r, () -> {
+                    if (stackNow.val().equals(StackAlias.StackAlias(List(1, 2, 3)))) {
+                        return State.put(StackAlias.StackAlias(List(8, 3, 1)));
+                    }
+                    else {
+                        return State.put(StackAlias.StackAlias(List(9, 2, 1)));
+                    }
+                })
+                .yield(() -> r.val());
+    }
+
+    @Test
+    public void test_stateStackyStack() {
+        Assert.assertEquals(StackAlias.StackAlias(List(8, 3, 1)), stackyStack().run(StackAlias.StackAlias(List(1, 2, 3)))._1());
+        Assert.assertEquals(StackAlias.StackAlias(List(9, 2, 1)), stackyStack().run(StackAlias.StackAlias(List(1, 2, 4)))._1());
+    }
+
+    // Now reimplement push and pop using get/put
+
+    static State<StackAlias, Integer> alternative_pop() {
+        final AnyVal<StackAlias> s_start = Any.make();
+        //final AnyVal<StackAlias> s_end = Any.make(); //(see below - not needed in this construction)
+        final AnyVal<Integer> x = Any.make();
+        final AnyVal<Unit> u = Any.make();
+        return StateFor.start()
+                .forComp(s_start, () -> State.init())
+                //TODO would have been interesting to have been able to do: (there's a similar comment elsewhere about wanting to support assignment for tuples)
+                //.letComp(Any.anyHeadAnyTail(x, s_end), () -> s_start.val())
+                // ie from scala:  "val (x :: xs) = s", but this gives a compile error on the type var R.
+                .letComp(x, () -> StackAlias.StackAlias(s_start.val()).head()) //TODO: this StackAlias.StackAlias() wrapper is nasty, needed to avoid odd looking compilation error?
+                .forComp(u, () -> State.put(StackAlias.StackAlias(s_start.val()).tail())) //TODO: (see above comment, same applies here)
+                .yield(() -> x.val());
+    }
+
+    static State<StackAlias, Unit> alternative_push(final Integer x) {
+        final AnyVal<StackAlias> xs = Any.make();
+        final AnyVal<Unit> r = Any.make();
+        return StateFor.start()
+                    .forComp(xs, () -> State.init())
+                    .forComp(r, () -> State.put(xs.val().cons(x)))
+                    .yield(() -> r.val());
+    }
+
+    static State<StackAlias, Integer> alternative_stackManip() {
+        final AnyVal<Unit> u = Any.make();
+        final AnyVal<Integer> a = Any.make();
+        final AnyVal<Integer> b = Any.make();
+        return StateFor.start()
+                .forComp(u, () -> alternative_push(3))
+                .forComp(a, () -> alternative_pop())
+                .forComp(b, () -> alternative_pop())
+                .yield(() -> b.val());
+    }
+
+    @Test
+    public void test_stateGetPutStack() {
+        //TODO shouldn't I be able to assign this to a StackAlias?
+        // eg final StackAlias stack = List(5, 8, 2, 1); //gives compile error
+        final ConsList<Integer> in_list = List(5, 8, 2, 1);
+        final P2<StackAlias, Integer> res = alternative_stackManip().run(StackAlias.StackAlias(in_list));
+
+        Assert.assertEquals(P.p(List(8, 2, 1), 5), res);
+        //(just double check original stack aka state hasn't changed:)
+        Assert.assertEquals(List(5, 8, 2, 1), in_list);
+    }
+
 }
