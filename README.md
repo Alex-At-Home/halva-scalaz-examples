@@ -13,7 +13,8 @@ The actual examples (with links to the original source material) are in the [tes
 Currently there's:
 * Reader monad
 * Writer monad
-* State monad (one of my favorite!)
+* State monad (one of my favorites!)
+* Lens examples
 
 I'll add others as I get the time.
 
