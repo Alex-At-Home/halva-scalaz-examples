@@ -15,6 +15,7 @@ Currently there's:
 * Writer monad
 * State monad (one of my favorites!)
 * Lens examples
+* TreeZipper and Zipper examples
 
 I'll add others as I get the time.
 
