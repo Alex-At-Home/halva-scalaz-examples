@@ -4,28 +4,29 @@ import fj.P;
 import fj.P2;
 import fj.Unit;
 import fj.data.State;
+import io.soabase.halva.alias.TypeAlias;
 import io.soabase.halva.any.Any;
 import io.soabase.halva.any.AnyType;
 import io.soabase.halva.any.AnyVal;
+import io.soabase.halva.container.TypeContainer;
 import io.soabase.halva.sugar.ConsList;
 import org.junit.Assert;
 import org.junit.Test;
 import io.soabase.halva.matcher.Matcher;
 import static io.soabase.halva.sugar.Sugar.List;
+import person.alexp.halva.examples.StateExampleTypes.Stack;
 
 /** See http://eed3si9n.com/learning-scalaz/State.html
  * Created by Alex on 6/24/2016.
  */
-//TODO: currently needs to be an inteface
-//@TypeContainer(unsuffix = "", suffix = "Types")
+@TypeContainer(unsuffix = "", suffix = "Types", renameContained = true)
 public class StateExample {
+
+    @TypeAlias(unsuffix = "_", suffix = "") interface Stack_ extends ConsList<Integer> {}
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
     // 1) Native implementation of stack
-
-    //TODO: this isn't currently working because TypeContainer needs interfaces
-    //@TypeAlias interface Stack extends ConsList<Integer> {}
 
     static P2<Integer, Stack> pop(final Stack stack) {
         final Any<Integer> head = new AnyType<Integer>() {};

@@ -26,6 +26,8 @@ import java.util.function.Function;
  */
 public class LensExample {
 
+    // See LensExampleTypes_ in main for the Turtle data model - example of how to include in the same package as the logic in in StateExample
+
     @Test
     public void test_turtle() {
         final Turtle turtle = Turtle(Point(2.0, 3.0), 0.0, Color((byte) -1, (byte) -1, (byte) -1));
