@@ -11,11 +11,11 @@ _(Actually in some cases the Java version is a fair bit easier to follow - in re
 The actual examples (with links to the original source material) are in the [test package](https://github.com/Alex-At-Home/halva-scalaz-examples/tree/master/src/test/java/person/alexp/halva/examples).
 
 Currently there's:
-* Reader monad
-* Writer monad
-* State monad (one of my favorites!)
-* Lens examples
-* TreeZipper and Zipper examples
+* [ReaderExample](https://github.com/Alex-At-Home/halva-scalaz-examples/blob/master/src/test/java/person/alexp/halva/examples/ReaderExample.java) - [Reader monad](), including reproducing [Monad Transformers]() (chaining Readers and Optionals), which worked surprisingly nicely thanks to [Halva](https://github.com/Randgalt/halva)
+* [WriterExample](https://github.com/Alex-At-Home/halva-scalaz-examples/blob/master/src/test/java/person/alexp/halva/examples/WriterExample.java) - [Writer monad](http://eed3si9n.com/learning-scalaz/Writer.html)
+* [StateExample](https://github.com/Alex-At-Home/halva-scalaz-examples/blob/master/src/test/java/person/alexp/halva/examples/StateExample.java) - [State monad](http://eed3si9n.com/learning-scalaz/State.html) (one of my favorites!)
+* [LensExample](https://github.com/Alex-At-Home/halva-scalaz-examples/blob/master/src/test/java/person/alexp/halva/examples/LensExample.java)  - Lens class, chained using the [State monad](http://eed3si9n.com/learning-scalaz/Lens.html)
+* [ZipperExample](https://github.com/Alex-At-Home/halva-scalaz-examples/blob/master/src/test/java/person/alexp/halva/examples/ZipperExample.java) - [TreeZipper](http://eed3si9n.com/learning-scalaz/Tree.html) and [Zipper](http://eed3si9n.com/learning-scalaz/Zipper.html) classes, chained using Optionals
 
 I'll add others as I get the time.
 
