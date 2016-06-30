@@ -70,7 +70,7 @@ public class ReaderExample {
         return Reader.unit(x -> Optional.ofNullable(x.get(key)));
     }
 
-    static Reader<Map<String, String>, Optional<P3<String, String, String>>> setupConnection() {
+    static Reader<Map<String, String>, Optional<P3<String, String, String>>> setupConnection_manualChain() {
         final AnyVal<Optional<String>> maybe_host = Any.make();
         final AnyVal<Optional<String>> maybe_user = Any.make();
         final AnyVal<Optional<String>> maybe_password = Any.make();
@@ -91,6 +91,17 @@ public class ReaderExample {
                 ;
     }
 
+    static Reader<Map<String, String>, Optional<P3<String, String, String>>> setupConnection_monadicTransform() {
+        final AnyVal<String> host = Any.make();
+        final AnyVal<String> user = Any.make();
+        final AnyVal<String> password = Any.make();
+        return ReaderOptionalFor2.start()
+                .forComp(host, () -> configure("host"))
+                .forComp(user, () -> configure("user"))
+                .forComp(password, () -> configure("password"))
+                .yield(() -> P.p(host.val(), user.val(), password.val()));
+    }
+
     @Test
     public void test_complexReader() {
         final Map<String, String> good_config = Map(
@@ -98,13 +109,15 @@ public class ReaderExample {
                 Tuple.Pair("user", "sa"),
                 Tuple.Pair("password", "****"));
 
-        Assert.assertEquals(Optional.of(P.p("eed3si9n.com", "sa", "****")), setupConnection().f(good_config));
+        Assert.assertEquals(Optional.of(P.p("eed3si9n.com", "sa", "****")), setupConnection_manualChain().f(good_config));
+        Assert.assertEquals(Optional.of(P.p("eed3si9n.com", "sa", "****")), setupConnection_monadicTransform().f(good_config));
 
         final Map<String, String> bad_config = Map(
                 Tuple.Pair("host", "example.com"),
                 Tuple.Pair("user", "sa"));
 
-        Assert.assertEquals(Optional.empty(), setupConnection().f(bad_config));
+        Assert.assertEquals(Optional.empty(), setupConnection_manualChain().f(bad_config));
+        Assert.assertEquals(Optional.empty(), setupConnection_monadicTransform().f(bad_config));
     }
 
 

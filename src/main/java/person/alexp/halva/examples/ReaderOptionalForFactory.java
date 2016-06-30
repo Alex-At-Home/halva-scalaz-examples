@@ -10,8 +10,7 @@ import java.util.function.Function;
 /** Factory to create for comprehension for a monadic transformer reader -> optional
  * Created by Alex on 6/24/2016.
  */
-//TODO: fails with NPE if annotation below enabled
-//@MonadicFor
+@MonadicFor
 public class ReaderOptionalForFactory<A>  implements MonadicForWrapper<Reader<A, Optional>> {
 
     @SuppressWarnings("unchecked")
