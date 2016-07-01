@@ -95,7 +95,7 @@ public class ReaderExample {
         final AnyVal<String> host = Any.make();
         final AnyVal<String> user = Any.make();
         final AnyVal<String> password = Any.make();
-        return ReaderOptionalFor2.start()
+        return ReaderOptionalFor.start()
                 .forComp(host, () -> configure("host"))
                 .forComp(user, () -> configure("user"))
                 .forComp(password, () -> configure("password"))
